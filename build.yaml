@@ -16,9 +16,15 @@ spec:
       tty: true
       privileged: true
       volumeMounts:
-        - name: dockersock
-          mountPath: /var/run/docker.sock
+        - name: docker-socket
+          mountPath: /var/run
+    - name: docker-daemon
+      image: docker:19.03-dind
+      securityContext:
+        privileged: true
+      volumeMounts:
+      - name: docker-socket
+        mountPath: /var/run
   volumes:
-    - name: dockersock
-      hostPath:
-        path: /var/run/docker.sock
+    - name: docker-socket
+      emptyDir: {}
