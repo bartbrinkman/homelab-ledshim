@@ -1,9 +1,9 @@
 FROM python:3.9-slim-buster
 
-RUN apt clean && \
-    rm -rf /var/lib/apt/lists/* && \ 
-    apt update && \
-    apt install -y build-essential
+# RUN apt clean && \
+#     rm -rf /var/lib/apt/lists/* && \ 
+#     apt update && \
+#     apt install -y build-essential
 
 WORKDIR /app
 
