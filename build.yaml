@@ -4,6 +4,11 @@ metadata:
   namespace: build
 spec:
   containers:
+    - name: jnlp
+      image: pi4k8s/inbound-agent:4.3
+      env:
+      - name: CONTAINER_ENV_VAR
+        value: jnlp
     - name: docker
       image: docker:19.03
       command:
