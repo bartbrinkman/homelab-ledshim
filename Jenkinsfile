@@ -13,9 +13,6 @@ pipeline {
     }
     stages {
         stage('Build') {
-            when {
-                true
-            }
             steps {
                 container('docker') {
                     sh "docker build -t ${REGISTRY}:${VERSION} ."
@@ -23,9 +20,6 @@ pipeline {
             }
         }
         stage('Publish') {
-            when {
-                true
-            }
             steps {
                 container('docker') {
                     withDockerRegistry([credentialsId: "${REGISTRY_CREDENTIALS}", url: ""]) {
