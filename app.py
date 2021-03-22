@@ -1,14 +1,52 @@
-import random
-import time
+# import random
+# import time
+
+# import ledshim
+
+# ledshim.set_clear_on_exit()
+# ledshim.set_brightness(0.4)
+
+# while True:
+#     for i in range(ledshim.NUM_PIXELS):
+#         ledshim.set_pixel(i, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+#     ledshim.show()
+#     time.sleep(0.05)
+
+try:
+    import numpy as np
+except ImportError:
+    exit('This script requires the numpy module\nInstall with: sudo pip install numpy')
 
 import ledshim
 
 ledshim.set_clear_on_exit()
-ledshim.set_brightness(0.4)
+
+
+def make_gaussian(fwhm):
+    x = np.arange(0, ledshim.NUM_PIXELS, 1, float)
+    y = x[:, np.newaxis]
+    x0, y0 = 3.5, (ledshim.NUM_PIXELS / 2) - 0.5
+    fwhm = fwhm
+    gauss = np.exp(-4 * np.log(2) * ((x - x0) ** 2 + (y - y0) ** 2) / fwhm ** 2)
+    return gauss
+
 
 while True:
-    for i in range(ledshim.NUM_PIXELS):
-        ledshim.set_pixel(i, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
-    ledshim.show()
-    time.sleep(0.05)
+    for z in list(range(1, 10)[::-1]) + list(range(1, 10)):
+        fwhm = 15.0 / z
+        gauss = make_gaussian(fwhm)
+        start = time.time()
+        y = 4
+        for x in range(ledshim.NUM_PIXELS):
+            h = 0.5
+            s = 1.0
+            v = gauss[x, y]
+            rgb = colorsys.hsv_to_rgb(h, s, v)
+            r, g, b = [int(255.0 * i) for i in rgb]
+            ledshim.set_pixel(x, r, g, b)
+        ledshim.show()
+        end = time.time()
+        t = end - start
+        if t < 0.04:
+            time.sleep(0.04 - t)
