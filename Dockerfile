@@ -1,5 +1,7 @@
 FROM python:3-slim-buster
 
+RUN apt-get install -y --no-install-recommends python-smbus
+
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
