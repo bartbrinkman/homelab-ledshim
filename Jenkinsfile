@@ -12,6 +12,13 @@ pipeline {
         }
     }
     stages {
+        stage('Cache') {
+            steps {
+                container('docker') {
+                    sh "docker pull ${REGISTRY}:${VERSION}"
+                }
+            }
+        }
         stage('Build') {
             steps {
                 container('docker') {
