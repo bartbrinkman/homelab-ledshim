@@ -12,17 +12,10 @@ pipeline {
         }
     }
     stages {
-        stage('Cache') {
-            steps {
-                container('docker') {
-                    sh "docker pull ${REGISTRY}:${VERSION}"
-                }
-            }
-        }
         stage('Build') {
             steps {
                 container('docker') {
-                    sh "docker build -t ${REGISTRY}:${VERSION} ."
+                    sh "docker build --cache-from ${REGISTRY}:${VERSION} -t ${REGISTRY}:${VERSION} ."
                 }
             }
         }
