@@ -1,3 +1,9 @@
+def _import(name, *args, **kwargs):
+    if (name == 'smbus'):
+        name = 'smbus2'
+        
+    return original_import(name, *args, **kwargs)
+
 # import random
 import time
 
