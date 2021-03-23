@@ -18,6 +18,7 @@ try:
 except ImportError:
     exit('This script requires the numpy module\nInstall with: sudo pip install numpy')
 
+import colorsys
 import ledshim
 
 ledshim.set_clear_on_exit()
